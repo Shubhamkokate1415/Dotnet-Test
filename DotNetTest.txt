@@ -1,0 +1,199 @@
+Q1:  Replace each array element by its corresponding rank
+  Given an array of distinct integers, replace each array element by its corresponding rank in the array.
+
+The minimum array element has the rank 1; the second minimum element has a rank of 2, and so on… For example,
+
+Input:  { 10, 8, 15, 12, 6, 20, 1 } 
+Output: { 4, 3, 6, 5, 2, 7, 1 }
+
+--->
+
+using System;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        int[] arr = { 10, 8, 15, 12, 6, 20, 1 };
+        int[] ranked = RankElements(arr);
+        
+        Console.WriteLine(string.Join(", ", ranked));
+    }
+
+    static int[] RankElements(int[] arr)
+    {
+        
+        var sortedWithIndex = arr.Select((value, index) => new { Value = value, Index = index })
+                                  .OrderBy(x => x.Value)
+                                  .ToArray();
+
+        
+        int[] ranks = new int[arr.Length];
+
+        
+        for (int i = 0; i < sortedWithIndex.Length; i++)
+        {
+            
+            ranks[sortedWithIndex[i].Index] = i + 1;
+        }
+
+        return ranks;
+    }
+}
+
+
+
+Q2: Given a string s, find the length of the longest substring without repeating characters.
+Example 1:
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+Example 3:
+
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+ 
+Constraints:
+
+0 <= s.length <= 5 * 104
+s consists of English letters, digits, symbols and spaces.
+
+---->
+
+
+using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public int LengthOfLongestSubstring(string s) {
+        int n = s.Length;
+        int ans = 0; 
+        int left = 0; 
+        Dictionary<char, int> window = new Dictionary<char, int>();
+
+        for (int right = 0; right < n; right++) {
+            char rightChar = s[right];
+
+            
+            if (window.ContainsKey(rightChar) && window[rightChar] >= left) {
+                left = window[rightChar] + 1; 
+            }
+
+            window[rightChar] = right;
+            ans = Math.Max(ans, right - left + 1); 
+        }
+
+        return ans;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Solution solution = new Solution();
+        
+        Console.WriteLine(solution.LengthOfLongestSubstring("abcabcbb")); 
+        Console.WriteLine(solution.LengthOfLongestSubstring("bbbbb"));    
+        Console.WriteLine(solution.LengthOfLongestSubstring("pwwkew"));   
+            }
+}
+
+
+
+Q3:Find non-repeating characters in a string .
+
+--->
+
+
+
+using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public void PrintNonRepeatingCharacters(string s) {
+        var charCount = new Dictionary<char, int>();
+
+        
+        foreach (var c in s) {
+            if (!charCount.ContainsKey(c)) {
+                charCount[c] = 1;
+            } else {
+                charCount[c]++;
+            }
+        }
+
+        Console.WriteLine("Non-repeating characters:");
+        foreach (var item in charCount) {
+            if (item.Value == 1) {
+                Console.WriteLine(item.Key);
+            }
+        }
+    }
+}
+
+class Program {
+    static void Main() {
+        Solution solution = new Solution();
+        solution.PrintNonRepeatingCharacters("programming");
+    }
+}
+
+
+
+
+Q4:You are given an array of integers. 
+Write a C# program to find the frequency of each unique element in the array and 
+store the results in a dictionary where the key is the element and the value is its frequency.
+Then, print the elements and their frequencies.
+
+Example:
+Input:
+int[] numbers = { 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 };
+
+Output:
+Element: 1, Frequency: 1
+Element: 2, Frequency: 2
+Element: 3, Frequency: 3
+Element: 4, Frequency: 4
+
+--->
+
+
+
+
+using System;
+using System.Collections.Generic;
+
+class Program {
+    static void Main(string[] args) {
+        int[] numbers = { 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 };
+        var frequencyDict = new Dictionary<int, int>();
+
+        foreach (int number in numbers) {
+            if (frequencyDict.ContainsKey(number)) {
+                frequencyDict[number]++;
+            } else {
+                frequencyDict.Add(number, 1);
+            }
+        }
+
+        Console.WriteLine("Element and Frequency:");
+        foreach (var kvp in frequencyDict) {
+            Console.WriteLine($"Element: {kvp.Key}, Frequency: {kvp.Value}");
+        }
+    }
+}
+
+
+
+
+
